@@ -17,7 +17,7 @@ import java.awt.Point;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.RenderingHints;
-
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 
@@ -27,6 +27,7 @@ import javax.swing.event.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.AbstractAction;
+import javax.swing.JButton;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 
@@ -34,7 +35,52 @@ import javax.swing.SwingUtilities;
 
 class Paint extends JFrame {
 	Vector<Shape> shapes = new Vector<Shape>();
+	Vector<Color> colors = new Vector<Color>();
 	Color couleur = Color.BLACK;
+	
+	class ColorButton extends JButton implements MouseListener {
+        Color  buttonColor;
+
+        public ColorButton(int red, int green, int blue) {
+            buttonColor = new Color(red, green, blue);
+            setBackground(buttonColor);
+            setText("    ");
+            addMouseListener(this);
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            couleur = buttonColor;
+        }
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+    }
+
+    ColorButton[] colorButtons = { new ColorButton(0, 0, 0), new ColorButton(255, 0, 0),
+            new ColorButton(0, 255, 0), new ColorButton(0, 0, 255) };
+	
 	class Tool extends AbstractAction implements MouseInputListener {
 		Point o;
 		Shape shape;
@@ -96,6 +142,7 @@ class Paint extends JFrame {
 				path = new Path2D.Double();
 				path.moveTo(o.getX(), o.getY());
 				shapes.add(shape = path);
+				colors.add(couleur);
 			}
 			path.lineTo(e.getX(), e.getY());
 			panel.repaint();
@@ -106,8 +153,21 @@ class Paint extends JFrame {
 			if (rect == null) {
 				rect = new Rectangle2D.Double(o.getX(), o.getY(), 0, 0);
 				shapes.add(shape = rect);
+				colors.add(couleur);
 			}
 			rect.setRect(min(e.getX(), o.getX()), min(e.getY(), o.getY()), abs(e.getX() - o.getX()),
+					abs(e.getY() - o.getY()));
+			panel.repaint();
+		}
+	}, new Tool("ellipse") {
+		public void mouseDragged(MouseEvent e) {
+			Ellipse2D.Double ellipse = (Ellipse2D.Double) shape;
+			if (ellipse == null) {
+				ellipse = new Ellipse2D.Double(o.getX(), o.getY(), 0, 0);
+				shapes.add(shape = ellipse);
+				colors.add(couleur);
+			}
+			ellipse.setFrame(min(e.getX(), o.getX()), min(e.getY(), o.getY()), abs(e.getX() - o.getX()),
 					abs(e.getY() - o.getY()));
 			panel.repaint();
 		}
@@ -125,8 +185,12 @@ class Paint extends JFrame {
 				for (AbstractAction tool : tools) {
 					add(tool);
 				}
+	        	for (JButton button : colorButtons) {
+	                add(button);
+	        	}
 			}
 		}, BorderLayout.NORTH);
+
 		add(panel = new JPanel() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
@@ -137,8 +201,9 @@ class Paint extends JFrame {
 				g2.fillRect(0, 0, getWidth(), getHeight());
 
 				g2.setColor(couleur);
-				for (Shape shape : shapes) {
-					g2.draw(shape);
+				for (int i=0; i < shapes.size() ;i++) {
+					g2.setColor(colors.get(i));
+					g2.draw(shapes.get(i));
 				}
 			}
 		});
