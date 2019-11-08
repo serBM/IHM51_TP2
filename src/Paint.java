@@ -44,13 +44,15 @@ class Paint extends JFrame {
         public ColorButton(int red, int green, int blue) {
             buttonColor = new Color(red, green, blue);
             setBackground(buttonColor);
-            setText("    ");
+            setText(" ");
             addMouseListener(this);
         }
 
         @Override
         public void mouseClicked(MouseEvent e) {
             couleur = buttonColor;
+            //Forwards the click to the Tool click event
+            tool.mouseClicked(e);
         }
 
 		@Override
@@ -77,15 +79,19 @@ class Paint extends JFrame {
 			
 		}
     }
-
+	
     ColorButton[] colorButtons = { new ColorButton(0, 0, 0), new ColorButton(255, 0, 0),
             new ColorButton(0, 255, 0), new ColorButton(0, 0, 255) };
+    ColorButton[] colorButtonsCircular = { new ColorButton(0, 0, 0), new ColorButton(255, 0, 0),
+            new ColorButton(108, 56, 187), new ColorButton(0, 0, 255), new ColorButton(0, 255, 255), new ColorButton(255, 0, 255),
+            new ColorButton(255, 255, 0), new ColorButton(128, 128, 128), new ColorButton(45, 243, 12), new ColorButton(123, 0, 23),
+            new ColorButton(13, 25, 87), new ColorButton(45, 145, 45) };
 	
 	class Tool extends AbstractAction implements MouseInputListener {
 		Point o;
 		Shape shape;
-		MenuCirculaire menu;
-		int menuWidth = 300, menuHeight = 200;
+		CircularMenu menu;
+		int menuWidth = 300, menuHeight = 235, buttonSize=40;
 		
 		public Tool(String name) {
 			super(name);
@@ -102,11 +108,10 @@ class Paint extends JFrame {
 
 		public void mouseClicked(MouseEvent e) {
 			if (menu == null) {
-				menu = new MenuCirculaire();
-				panel.setLayout(null);
+				menu = new CircularMenu(colorButtonsCircular,menuWidth, menuHeight, 65, buttonSize);
 				panel.add(menu);
-				menu.setBounds(getMousePosition().x-menuWidth/2, getMousePosition().y-menuHeight/2-40, menuWidth, menuHeight);
-				menu.setBackground(Color.white);
+				menu.setLocation(getMousePosition().x-menuWidth/2-buttonSize, getMousePosition().y-menuHeight/2-buttonSize);
+				//menu.setBounds(getMousePosition().x-menuWidth/2, getMousePosition().y-menuHeight/2-40, menuWidth, menuHeight);
 				menu.setVisible(true);
 			} else { 
 				menu.setVisible(false);
