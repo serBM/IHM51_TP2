@@ -37,6 +37,8 @@ class Paint extends JFrame {
 	Vector<Shape> shapes = new Vector<Shape>();
 	Vector<Color> colors = new Vector<Color>();
 	Color couleur = Color.BLACK;
+	int menuWidth = 300, menuHeight = 235, radius=65, buttonSize=40;
+	CircularMenu circularMenu;
 	
 	class ColorButton extends JButton implements MouseListener {
         Color  buttonColor;
@@ -50,48 +52,39 @@ class Paint extends JFrame {
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            couleur = buttonColor;
-            //Forwards the click to the Tool click event
-            tool.mouseClicked(e);
         }
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
-		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
+		public void mouseReleased(MouseEvent e) {			
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
+			couleur = buttonColor;
+			panel.remove(circularMenu);
+			panel.repaint();
+			openActionMenu();
 		}
 
 		@Override
-		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
+		public void mouseExited(MouseEvent e) {			
 		}
     }
 	
     ColorButton[] colorButtons = { new ColorButton(0, 0, 0), new ColorButton(255, 0, 0),
             new ColorButton(0, 255, 0), new ColorButton(0, 0, 255) };
     ColorButton[] colorButtonsCircular = { new ColorButton(0, 0, 0), new ColorButton(255, 0, 0),
-            new ColorButton(108, 56, 187), new ColorButton(0, 0, 255), new ColorButton(0, 255, 255), new ColorButton(255, 0, 255),
-            new ColorButton(255, 255, 0), new ColorButton(128, 128, 128), new ColorButton(45, 243, 12), new ColorButton(123, 0, 23),
-            new ColorButton(13, 25, 87), new ColorButton(45, 145, 45) };
-	
+            new ColorButton(108, 56, 187), new ColorButton(0, 0, 255), new ColorButton(0, 255, 255), new ColorButton(255, 0, 255) };
+
+    
 	class Tool extends AbstractAction implements MouseInputListener {
 		Point o;
 		Shape shape;
-		CircularMenu menu;
-		int menuWidth = 300, menuHeight = 235, buttonSize=40;
 		
 		public Tool(String name) {
 			super(name);
@@ -107,15 +100,14 @@ class Paint extends JFrame {
 		}
 
 		public void mouseClicked(MouseEvent e) {
-			if (menu == null) {
-				menu = new CircularMenu(colorButtonsCircular,menuWidth, menuHeight, 65, buttonSize);
-				panel.add(menu);
-				menu.setLocation(getMousePosition().x-menuWidth/2-buttonSize, getMousePosition().y-menuHeight/2-buttonSize);
-				//menu.setBounds(getMousePosition().x-menuWidth/2, getMousePosition().y-menuHeight/2-40, menuWidth, menuHeight);
-				menu.setVisible(true);
-			} else { 
-				menu.setVisible(false);
-				menu = null; 
+			if(e.getButton()==MouseEvent.BUTTON3) {
+				if (circularMenu == null) {
+					circularMenu = new CircularMenu(colorButtons,menuWidth, menuHeight, radius, buttonSize);
+					panel.add(circularMenu);
+					circularMenu.setLocation(getMousePosition().x-menuWidth/2-buttonSize, getMousePosition().y-menuHeight/2-buttonSize);
+					System.out.println("x : " +getMousePosition().x + " y : "+ getMousePosition().y);
+					circularMenu.setVisible(true);
+				}
 			}
 		}
 
@@ -126,11 +118,15 @@ class Paint extends JFrame {
 		}
 
 		public void mousePressed(MouseEvent e) {
-			o = e.getPoint();
+				o = e.getPoint();
+				if (circularMenu != null) {
+					circularMenu.setVisible(false);
+					circularMenu=null;
+				}
 		}
 
 		public void mouseReleased(MouseEvent e) {
-			shape = null;
+		    shape = null;
 		}
 
 		public void mouseDragged(MouseEvent e) {
@@ -177,10 +173,50 @@ class Paint extends JFrame {
 			panel.repaint();
 		}
 	} };
+	
+    class ToolButton extends JButton implements MouseListener {
+        String  toolName;
+
+        public ToolButton(String toolName) {
+            setBackground(Color.DARK_GRAY);
+            setText(toolName);
+            addMouseListener(this);
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+        }
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {	
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {			
+		}
+    }
+    
+	// We create a ToolButton list containing our actions
+	ToolButton[] actionButtons = { new ToolButton(tools[0].NAME),new ToolButton(tools[1].NAME),new ToolButton(tools[2].NAME)};
+	
+	public void openActionMenu() {
+		circularMenu = new CircularMenu(actionButtons,menuWidth, menuHeight, radius, buttonSize);
+		panel.add(circularMenu);
+		circularMenu.setLocation(getMousePosition().x-menuWidth/2-buttonSize, getMousePosition().y-menuHeight/2-buttonSize);
+	}
+	
 	Tool tool;
 
 	JPanel panel;
-
 	public Paint(String title) {
 		super(title);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
