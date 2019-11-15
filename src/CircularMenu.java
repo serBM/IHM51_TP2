@@ -1,6 +1,7 @@
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class CircularMenu extends JPanel {
 	JButton[] buttons;
 	int width, height, radius, size, size2;
