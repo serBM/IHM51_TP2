@@ -116,7 +116,6 @@ class Paint extends JFrame {
 		 */
 		public void mousePressed(MouseEvent e) {
 				o = e.getPoint();
-				System.out.println("coucou");
 				if(e.getButton()==MouseEvent.BUTTON1) {
 					if (circularMenu != null) {
 						circularMenu.setVisible(false);
