@@ -31,3 +31,5 @@ Nous avons ensuite rajouté la possibilité de choisir des couleurs.
   Après avoir selectionné une couleur, un nouveau cercle apparait autour du pointeur permettant cette fois de selectionner un outil de dessin, en faisant **glisser la souris**, de la même manière.
   
   On peut à tout moment fermer le menu en utilisant le cliquant avec le **clic droit**, ou bien en utilisant le **clic gauche** pour dessiner.
+  
+  Avant d'utiliser pour la première fois le menu, il faut initialiser la classe tools en selectionnant une première fois un outil avec la barre en haut 
