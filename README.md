@@ -11,7 +11,9 @@
 
 **Membres du groupe :** Maxence Brès, Baptiste Bétend, Lucas Reygrobellet
 
+## Architecture
 
+Notre projet comporte trois branches, la master, une branche circular-menu qui implemente le menu circulaire avec click et une branche marking-menu qui implemente le marking menu avec action au mouvement de la souris.
 
 ## Éléments implémentés
 
