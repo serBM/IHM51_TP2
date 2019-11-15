@@ -66,9 +66,11 @@ class Paint extends JFrame {
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			couleur = buttonColor;
-			panel.remove(circularMenu);
-			panel.repaint();
-			openActionMenu();
+			if(circularMenu != null) {
+				panel.remove(circularMenu);
+				panel.repaint();
+				openActionMenu();
+			}
 		}
 
 		@Override
