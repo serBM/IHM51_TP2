@@ -26,7 +26,7 @@ Nous avons ensuite rajouté la possibilité de choisir des couleurs.
 
 ## Mode d'utilisation
 
-  Le menu de selection s'ouvre en cliquant avec le **clic doit**. Ce menu est d'abord un cercle composé de plusieurs couleurs qui apparait autour du pointeur. On peut selectionner une de ces couleurs en faisant **glisser la souris** sur l'une d'entre elle.
+  Le menu de selection s'ouvre en cliquant avec le **clic droit**. Ce menu est d'abord un cercle composé de plusieurs couleurs qui apparait autour du pointeur. On peut selectionner une de ces couleurs en faisant **glisser la souris** sur l'une d'entre elle.
   
   Après avoir selectionné une couleur, un nouveau cercle apparait autour du pointeur permettant cette fois de selectionner un outil de dessin, en faisant **glisser la souris**, de la même manière.
   
