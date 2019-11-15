@@ -47,22 +47,22 @@ class Paint extends JFrame {
             setText(" ");
             addMouseListener(this);
         }
-        public void mouseClicked(MouseEvent e) {}
-        public void mousePressed(MouseEvent e) {}
-		public void mouseReleased(MouseEvent e) {}
-		/*
-		 * (non-Javadoc)
-		 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
-		 * When the mouse passed on the button the color is selected and the circular menu removed
+        /*
+         * (non-Javadoc)
+         * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent) 
+         * When the mouse is clicked the color is selected and the circular menu removed
 		 */
-		public void mouseEntered(MouseEvent e) {
+        public void mouseClicked(MouseEvent e) {
 			couleur = buttonColor;
 			if(circularMenu != null) {
 				panel.remove(circularMenu);
 				panel.repaint();
 				openActionMenu();
 			}
-		}
+        }
+        public void mousePressed(MouseEvent e) {}
+		public void mouseReleased(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
 		public void mouseExited(MouseEvent e) {}
     }
 	
@@ -116,7 +116,6 @@ class Paint extends JFrame {
 		 */
 		public void mousePressed(MouseEvent e) {
 				o = e.getPoint();
-				System.out.println("coucou");
 				if(e.getButton()==MouseEvent.BUTTON1) {
 					if (circularMenu != null) {
 						circularMenu.setVisible(false);
@@ -177,22 +176,21 @@ class Paint extends JFrame {
             setBackground(Color.LIGHT_GRAY);
             addMouseListener(this);
         }
-		public void mouseClicked(MouseEvent e) {}
-		public void mousePressed(MouseEvent e) {}
-		public void mouseReleased(MouseEvent e) {}
-		public void mouseExited(MouseEvent e) {}
-		/* 
-		 * (non-Javadoc)
-		 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
-		 * When mouse enter in the button area 
-		 */
-		public void mouseEntered(MouseEvent e) {
+        /* 
+         * (non-Javadoc)
+         * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+         */
+		public void mouseClicked(MouseEvent e) {			
 			this.doClick();
 			panel.remove(circularMenu);
 			circularMenu.setVisible(false);
 			circularMenu = null;
 			panel.repaint();
 		}
+		public void mousePressed(MouseEvent e) {}
+		public void mouseReleased(MouseEvent e) {}
+		public void mouseExited(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
     }
     
 	// We create a ToolButton list containing our actions
