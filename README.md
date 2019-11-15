@@ -1,7 +1,7 @@
 
   
 
-# TP2 IHM Avancée - INFO5 Polytech - 2019-2020
+# TP2 IHM - INFO5 Polytech - 2019-2020
 
 
 
